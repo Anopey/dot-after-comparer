@@ -1,4 +1,4 @@
-checked_file_path = input("ener the path to file you would like checked: ")
+checked_file_path = input("enter the path to file you would like checked: ")
 comparison_file_path = input("enter path to base comparison file: ")
 
 checked_file = open(checked_file_path, "r")
