@@ -69,39 +69,51 @@ for i in range(0, comparison_len):
             currentFound = ""
 
 checked_len = len(checked)
-current_line = 0
+current_line = 1
+
+ending_sequence_len = len(ending_sequence)
 
 for i in range(0, checked_len):
-    if checked[i] == '\n':
-        current_line += 1
+    if(checked[i] == '\n'):
+        current_line+= 1
     if(checked[i] == before[0]):
         found = False
-        for j in range (1, len(before)): #check if before is here
-            if(j + i > checked_len):
+        for j in range (0, len(before)): #check if before is here
+            if(j + i >= checked_len):
                 break #reached end of file before desired sequence ended.
-            if(checked[i + j] == ending_sequence[0]): #doing it this way also makes it so that those without ending sequences dont work.
-                ending_sequence_len = len(ending_sequence)
-                for q in range(1, ending_sequence_len):
-                    if (j + i + q > checked_len):
-                        found = False
-                        break
-                    if checked[i + j + q] != ending_sequence[q]:
-                        break
-                    if q == ending_sequence_len - 1:
-                        found = True
-                        break
-                if found:
-                    break #Break out of second one.
 
             if(checked[i + j] != before[j]):
                 found = False
                 break
+            if(j == len(before) - 1): #reached end of checked sequence :o
+                break_out_larger = False
+                k = 0
+                found = True 
+                currentFound = ""
+                while True:
+                    k += 1
+                    if(j + i + k >= checked_len):
+                        found = False
+                        break # out of bounds
+                    #have we possibly reached ending sequence?
+                    if(checked[j + i + k] == ending_sequence[0]): 
+                        for q in range(0, ending_sequence_len):
+                            if (j + i + q + k >= checked_len):
+                                break_out_larger = True
+                                found = False #out of bounds
+                                break
+                            if checked[j + i + q + k] != ending_sequence[q]:
+                                break #not the ending sequence. continue as planned.
+                            if q == ending_sequence_len - 1:
+                                break_out_larger = True #ok everything good
+                                break
+                    if break_out_larger:
+                        break
+                    currentFound += checked[j + i + k]
 
-            currentFound += checked[i+j]
         if found: #found :o
             if currentFound not in valid:
-                #found an invalid!
-                print("Invalid line found at: " + str(current_line) + "\n")
+                print("found invalid sequence \"" + currentFound + "\" at line " + str(current_line) + "\n")
         else: #not found :/
             currentFound = ""
             
