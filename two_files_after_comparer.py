@@ -16,6 +16,9 @@ comparison_ending_sequence = input("what should be the character sequence to end
 if(ending_sequence == "/endofline"):
     ending_sequence = "\n"
 
+if(comparison_ending_sequence=="/endofline"):
+    comparison_ending_sequence="\n"
+
 valid = []
 
 comparison_len = len(comparison)
