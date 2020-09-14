@@ -7,8 +7,10 @@ comparison_file = open(comparison_file_path, "r")
 checked =  checked_file.read()
 comparison = comparison_file.read()
 
-before = input("what should come before?")
-ending_sequence = input("what should be the character sequence to end it? enter /endofline to indicate until end of line.")
+before = input("what should come before in checked?")
+comparison_before = input("what should come before in comparison?")
+ending_sequence = input("what should be the character sequence to end it in checked? enter /endofline to indicate until end of line.")
+comparison_ending_sequence = input("what should be the character sequence to end it in comparison? enter /endofline to indicate until end of line.")
 
 
 if(ending_sequence == "/endofline"):
@@ -21,26 +23,26 @@ found = False
 currentFound = ""
 
 for i in range(0, comparison_len):
-    if(comparison[i] == before[0]):
+    if(comparison[i] == comparison_before[0]):
         found = False
-        for j in range (1, len(before)): #check if before is here
+        for j in range (1, len(comparison_before)): #check if comparison_before is here
             if(j + i > comparison_len):
-                break #reached end of file before desired sequence ended.
-            if(comparison[i + j] == ending_sequence[0]): #doing it this way also makes it so that those without ending sequences dont work.
-                ending_sequence_len = len(ending_sequence)
-                for q in range(1, ending_sequence_len):
+                break #reached end of file comparison_before desired sequence ended.
+            if(comparison[i + j] == comparison_ending_sequence[0]): #doing it this way also makes it so that those without ending sequences dont work.
+                comparison_ending_sequence_len = len(comparison_ending_sequence)
+                for q in range(1, comparison_ending_sequence_len):
                     if (j + i + q > comparison_len):
                         found = False
                         break
-                    if comparison[i + j + q] != ending_sequence[q]:
+                    if comparison[i + j + q] != comparison_ending_sequence[q]:
                         break
-                    if q == ending_sequence_len - 1:
+                    if q == comparison_ending_sequence_len - 1:
                         found = True
                         break
                 if found:
                     break #Break out of second one.
 
-            if(comparison[i + j] != before[j]):
+            if(comparison[i + j] != comparison_before[j]):
                 found = False
                 break
 
